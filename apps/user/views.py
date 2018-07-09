@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from user.models import User
 from celery_tasks.tasks import send_register_active_email
 from django.conf import settings
@@ -140,6 +140,16 @@ class LoginView(View):
         else:
             # 用户名或密码错误
             return render(request, 'login.html', {'errmsg':'用户名或密码错误'})
+
+# /user/logout
+class LogoutView(View):
+    '''退出登录'''
+    def get(self, request):
+        '''退出登录'''
+        # 清除用户的session信息
+        logout(request)
+        # 跳转到首页
+        return redirect(reverse('goods:index'))
 
 # /user
 class UserInfoView(LoginRequiredMixin,View):
