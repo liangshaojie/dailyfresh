@@ -7,6 +7,7 @@ from celery_tasks.tasks import send_register_active_email
 from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from django.views.generic import View
+from utils.mixin import LoginRequiredMixin
 from itsdangerous import SignatureExpired
 
 import re
@@ -141,15 +142,15 @@ class LoginView(View):
             return render(request, 'login.html', {'errmsg':'用户名或密码错误'})
 
 # /user
-class UserInfoView(View):
+class UserInfoView(LoginRequiredMixin,View):
     def get(self, request):
         return render(request, 'user_center_info.html',{'page':'user'})
 # /user
-class UserOrderView(View):
+class UserOrderView(LoginRequiredMixin,View):
     def get(self, request):
         return render(request, 'user_center_order.html',{'page':'order'})
 # /user
-class AddressView(View):
+class AddressView(LoginRequiredMixin,View):
     def get(self, request):
         return render(request, 'user_center_site.html',{'page':'address'})
 
