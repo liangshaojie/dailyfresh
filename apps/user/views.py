@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login
 from user.models import User
 from celery_tasks.tasks import send_register_active_email
 from django.conf import settings
-from django.core.mail import send_mail
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from django.views.generic import View
 from itsdangerous import SignatureExpired
