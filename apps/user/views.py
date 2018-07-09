@@ -141,3 +141,16 @@ class LoginView(View):
             # 用户名或密码错误
             return render(request, 'login.html', {'errmsg':'用户名或密码错误'})
 
+# /user
+class UserInfoView(View):
+    def get(self, request):
+        return render(request, 'user_center_info.html',{'page':'user'})
+# /user
+class UserOrderView(View):
+    def get(self, request):
+        return render(request, 'user_center_order.html',{'page':'order'})
+# /user
+class AddressView(View):
+    def get(self, request):
+        return render(request, 'user_center_site.html',{'page':'address'})
+
