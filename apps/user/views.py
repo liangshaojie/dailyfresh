@@ -1,10 +1,13 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from user.models import User
 from django.conf import settings
 from django.core.mail import send_mail
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from django.views.generic import View
+from itsdangerous import SignatureExpired
+
 import re
 
 
@@ -63,9 +66,37 @@ class RegisterView(View):
         message = ''
         sender = settings.EMAIL_FROM
         receiver = [email]
-        html_message = '<h1>%s, 欢迎您成为天天生鲜注册会员</h1>请点击下面链接激活您的账户<br/><a href="http://127.0.0.1:8000/user/active/%s">http://127.0.0.1:8000/user/active/%s</a>' % (
+        html_message = '<h1>%s, 欢迎您成为天天生鲜注册会员</h1>请点击下面链接激活您的账户<br/><a href="http://192.168.195.128:8000/user/active/%s">http://192.168.195.128:8000/user/active/%s</a>' % (
         username, token, token)
         send_mail(subject, message, sender, receiver, html_message=html_message)
         # 返回应答, 跳转到首页
         return redirect(reverse('goods:index'))
+
+
+class ActiveView(View):
+    '''用户激活'''
+    def get(self, request, token):
+        '''进行用户激活'''
+        # 进行解密，获取要激活的用户信息
+        serializer = Serializer(settings.SECRET_KEY, 3600)
+        try:
+            info = serializer.loads(token)
+            # 获取待激活用户的id
+            user_id = info['confirm']
+            # 根据id获取用户信息
+            user = User.objects.get(id=user_id)
+            user.is_active = 1
+            user.save()
+            # 跳转到登录页面
+            return redirect(reverse('user:login'))
+        except SignatureExpired as e:
+            # 激活链接已过期
+            return HttpResponse('激活链接已过期')
+
+# /user/login
+class LoginView(View):
+    '''登录'''
+    def get(self, request):
+        # 使用模板
+        return render(request, 'login.html')
 
