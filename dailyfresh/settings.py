@@ -27,7 +27,7 @@ SECRET_KEY = 'xhrdz+0-4yg=j0kt&)$(%re$exzunw4!kz^ns3((*pm=+-y7!^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -150,3 +150,16 @@ SESSION_CACHE_ALIAS = "default"
 
 # 配置登录url地址
 LOGIN_URL='/user/login' # /accounts/login
+
+MEDIA_URL = '/media/'
+
+# 出现bug不能用还是用Django默认上传
+# # 设置Django的文件存储类
+# DEFAULT_FILE_STORAGE='utils.fdfs.storage.FDFSStorage'
+#
+# # 设置fdfs使用的client.conf文件路径
+# FDFS_CLIENT_CONF='./utils/fdfs/client.conf'
+#
+# # 设置fdfs存储服务器上nginx的IP和端口号
+# FDFS_URL='http://192.168.159.128:8888/'
+
