@@ -15,7 +15,7 @@ class BaseModelAdmin(admin.ModelAdmin):
         generate_static_index_html.delay()
 
         # 清除首页的缓存数据
-        # cache.delete('index_page_data')
+        cache.delete('index_page_data')
 
     def delete_model(self, request, obj):
         '''删除表中的数据时调用'''
@@ -26,7 +26,7 @@ class BaseModelAdmin(admin.ModelAdmin):
         generate_static_index_html.delay()
 
         # 清除首页的缓存数据
-        # cache.delete('index_page_data')
+        cache.delete('index_page_data')
 
 class GoodsTypeAdmin(BaseModelAdmin):
     pass
