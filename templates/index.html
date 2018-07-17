@@ -33,7 +33,7 @@
                 {% endfor %}
 			</ul>
 			<div class="prev"></div>
-			<div class="next"></div>
+			<div class="next"></div>goods_list
 			<ul class="points"></ul>
 		</div>
 		<div class="adv fl">
@@ -61,7 +61,7 @@
 			<ul class="goods_list fl">
                 {% for banner in type.image_banners %}
 				<li>
-					<h4><a href="#">{{ banner.sku.name }}</a></h4>
+					<h4><a href="{% url 'goods:detail' banner.sku.id  %}">{{ banner.sku.name }}</a></h4>
 					<a href="#"><img src="{{ banner.sku.image.url }}"></a>
 					<div class="prize">¥ {{ banner.sku.price }}</div>
 				</li>
